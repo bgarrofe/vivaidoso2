@@ -1,0 +1,50 @@
+{% load i18n avatar_tags %}
+
+{% block content %}
+<div class="ibox float-e-margins">
+    <div class="row">
+        <div class="col-sm-3 b-r">
+            <p class="m-t-none m-b text-center">Your current Avatar</p>
+            <div class="text-center">
+                <div class="m-b-sm">
+                    <img alt="image" class="img-circle" src="{% avatar_url user %}">
+                </div>
+                <div class="text-center">
+                    <a class="delete-avatar btn btn-xs btn-danger"><i class="fa fa-times"></i> Delete </a>
+                    <a class="change-avatar btn btn-xs btn-primary"><i class="fa fa-upload"></i> Change </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            {% if not avatars %}
+                <p>{% trans "You haven't uploaded an avatar yet. Please upload one now." %}</p>
+            {% else %}
+            <p>Choose a new avatar:</p>
+            <form method="POST" action="{% url 'avatar_change' %}">
+                {% csrf_token %}
+                <ul>
+                    {% for field in primary_avatar_form %}
+                        {% for item in field %}
+                            {{item}}
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+                <button type="submit" class="btn btn-primary pull-right">{% trans "Choose new default" %}</button>
+            </form>
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <form enctype="multipart/form-data" method="POST" action="{% url 'avatar_add' %}">
+                    {{ upload_avatar_form }}
+                    <p>{% csrf_token %}<input type="submit" value="{% trans "Upload New Image" %}" /></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+            
+        
+            
+{% endblock %}
