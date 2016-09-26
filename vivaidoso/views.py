@@ -9,6 +9,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.core import serializers
 from forms import MyRegistrationForm, UploadFileForm, UserProfileForm
+from vivaidoso.models import Estado, Cidade, Bairro
 import json
 
 def index(request):
@@ -28,3 +29,18 @@ def contatos(request):
 		return render(request, 'vivaidoso/contatos.html', {})
 	else:
 		return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+
+def ajax_estados(request):
+    estados = Estado.objects.all()
+    data = serializers.serialize("json", estados)
+    return HttpResponse(data, content_type='application/json')
+
+def ajax_cidades(request, estado):
+    cidades = Cidade.objects.filter(estado=estado)
+    data = serializers.serialize("json", cidades)
+    return HttpResponse(data, content_type='application/json')
+
+def ajax_bairros(request, cidade):
+    bairros = Bairro.objects.filter(cidade=cidade)
+    data = serializers.serialize("json", bairros)
+    return HttpResponse(data, content_type='application/json')

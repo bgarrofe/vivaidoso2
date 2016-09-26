@@ -16,3 +16,26 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return u'Profile of user: %s' % self.user.username
+    
+class Estado(models.Model):  
+    flg_estado = models.TextField(max_length=2, blank=False)
+    desc_estado = models.TextField(max_length=72, blank=False)
+    cep1 = models.TextField(max_length=5, blank=False)
+    cep2 = models.TextField(max_length=5, blank=False)
+    
+    def __unicode__(self):
+        return u'Estado: %s' % self.desc_estado
+
+class Cidade(models.Model):  
+    desc_cidade = models.TextField(max_length=60, blank=False)
+    estado = models.ForeignKey(Estado, on_delete=models.CASCADE)
+    
+    def __unicode__(self):
+        return u'Cidade: %s' % self.desc_cidade
+
+class Bairro(models.Model):
+    cidade = models.ForeignKey(Cidade, on_delete=models.CASCADE)
+    desc_bairro = models.TextField(max_length=60, blank=False)
+    
+    def __unicode__(self):
+        return u'Bairro: %s' % self.desc_bairro
