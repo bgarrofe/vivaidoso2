@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>INSPINIA | Register</title>
+    <title>VivaIdoso | Register</title>
 
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet">
@@ -24,11 +24,11 @@
         <div>
             <div>
 
-                <h1 class="logo-name">IN+</h1>
+                <h1 class="logo-name">VivaIdoso</h1>
 
             </div>
-            <h3>Register to IN+</h3>
-            <p>Create account to see it in action.</p>
+            <h3>Cadastre-se no VivaIdoso</h3>
+            <p>Faça seu cadastro para ter acesso a conteúdo exclusivo.</p>
             <form class="m-t" role="form" method="POST" action=".">
                 {% csrf_token %}
                 <div class="form-group">
@@ -48,7 +48,7 @@
                     <span class="helptext">{{ form.password2.errors.as_text }}</span>
                 </div>
                 <div class="form-group">
-                        <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> Agree the terms and policy </label></div>
+                        <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> Concordo com os termos e condições de acesso. </label></div>
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">Register</button>
 

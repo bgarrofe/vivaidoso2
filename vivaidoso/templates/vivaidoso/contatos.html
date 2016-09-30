@@ -31,6 +31,7 @@
                     <!-- Notifications -->
 
                     <form class="contact" id="contact" action="#" method="POST">
+                        {% csrf_token %}
                         <div class="form-group col-md-6">
                             <input type="text" name="contact-name" class="form-control input-lg" placeholder="Nome" required>
                         </div>

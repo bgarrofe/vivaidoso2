@@ -1,0 +1,68 @@
+{% extends 'dashboard/base.html' %}
+{% load staticfiles %}
+
+{% block start_css %}
+    <link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+    <!-- Select2 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    {{ form.media }}
+{% endblock %}
+
+
+{% block content %}
+
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>Empresas</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li>
+                        <a>Cadastro</a>
+                    </li>
+                    <li class="active">
+                        <strong>Empresas</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-lg-2">
+
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Cadastro</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <p>
+                                Cadastre os dados da empresa
+                            </p>
+                            {{form}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+        </div>
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2017
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block end_js %}
+    <!-- Select2 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    
+{% endblock %}

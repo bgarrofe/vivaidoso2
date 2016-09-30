@@ -11,6 +11,10 @@ urlpatterns = [
     url(r'^ajax/get_bairros/(?P<cidade>[0-9]+)/', views.ajax_bairros, name='ajax_bairros'),
     url(r'^sobre-nos/$', views.sobre_nos, name='sobre-nos'),
     url(r'^contatos/$', views.contatos, name='contatos'),
+    url(r'^dashboard/$', views.dashboard, name='dashboard'),
+    url(r'^dashboard/empresa$', views.empresa, name='empresa'),
+    url(r'^profile/$', views.profile, name='profile'),
+    url(r'^profile/update/', views.profile_update, name='profile_update'),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^avatar/', include('avatar.urls')),
     

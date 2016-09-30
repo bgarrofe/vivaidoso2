@@ -1,7 +1,7 @@
 from django import forms            
 from django.contrib.auth.models import User   # fill in custom user info then save it 
 from django.contrib.auth.forms import UserCreationForm
-from vivaidoso.models import UserProfile
+from vivaidoso.models import UserProfile, Empresa
 import datetime
 
 GENDER_CHOICES = (
@@ -48,4 +48,11 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('bio', 'location', 'gender', 'birth_date')
+
+class EmpresaForm(forms.ModelForm):
+    
+    class Meta:
+        model = Empresa
+        fields = ('nome','nat_juridica', 'horario_visita', 'lot_maxima', 'apresentacao', 'servicos', 'admissao', 'atividades', 'localizacao')
+        
     

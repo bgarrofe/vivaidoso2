@@ -4,6 +4,7 @@ from adaptor.fields import DateField, FloatField
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from tinymce.models import HTMLField
 
 # Create your models here.
 
@@ -39,3 +40,17 @@ class Bairro(models.Model):
     
     def __unicode__(self):
         return u'Bairro: %s' % self.desc_bairro
+
+class Empresa(models.Model):
+    nome = models.CharField(max_length=140)
+    nat_juridica = models.CharField(max_length=60)
+    horario_visita = models.CharField(max_length=60)
+    lot_maxima = models.CharField(max_length=60)
+    apresentacao = HTMLField()
+    servicos = HTMLField()
+    admissao = HTMLField()
+    atividades = HTMLField()
+    localizacao = HTMLField()
+    
+    def __unicode__(self):
+        return u'Empresa: %s' % self.nome

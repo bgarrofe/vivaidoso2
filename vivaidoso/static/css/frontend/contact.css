@@ -1,0 +1,83 @@
+/*** ---------- Contact Css Start ----------*/
+.form-control {
+    background-color: #fff;
+    border: 1px solid #D6D4D4;
+    width: 100%;
+}
+
+.contact .input-group {
+    display: block;
+}
+
+form {
+    padding: 15px;
+}
+input[type="text"], input[type="email"] {
+    display: block;
+    margin-bottom: 10px;
+    height: 40px;
+    width: 100%;
+}
+.input-group{ margin-bottom: 15px;}
+
+.media-right{
+    padding-top: 7%;
+
+}
+.address1>li{margin-bottom: 30px;}
+.media-top .box-icon {
+    background-color: #01bc8c;
+    border: 1px solid #01bc8c;
+    border-radius: 50%;
+    display: table;
+    height: 40px;
+    width: 40px;
+    margin:0px;
+}
+.media-top .box-icon>i{position: relative;
+left: 8px;
+top:7px;
+}
+.padleft10{
+    padding-left: 10px;
+}
+.padbtm2{
+    padding-bottom: 5%;
+}
+
+.wrapper {
+    position: relative;
+    background-color: #f6f7f0;
+    -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+    margin-top: 80px;
+    margin-bottom: 140px;
+}
+
+.contact-info {
+    position: relative;
+    right: 0;
+    top: 0;
+    height: 100%;
+    border: 10px solid white;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 306px;
+    padding: 30px 25px;
+    background: white url('../../images/wave-pattern-white.png') repeat;
+}
+
+.body {
+    background-color: #f6f7f0;
+}
+
+.page-title {
+    color: #204a65;
+}
+
+.note {
+    margin-right: 40px;
+}
+/*** ---------- //Contact Css End ----------*/

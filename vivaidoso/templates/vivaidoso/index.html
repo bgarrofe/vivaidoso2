@@ -169,7 +169,8 @@
                         <h4 class="panel-title">Pesquisar</h4>
                     </div>
                     <div class="panel-body">
-                        <form class="contact" id="contact" action="#" method="POST">
+                        <form class="contact" role="form" id="contact" action="." method="POST">
+                            {% csrf_token %}
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
                                     <label>Estado</label>
@@ -199,11 +200,12 @@
                                 <div class="form-group">
                                     <label>Faixa de Valor Mensal</label>
                                     <select id="valor" class="form-control selectpicker" multiple data-none-selected-text="Selecione">
-                                        <option value="1">Até R$ 1.000</option>
-                                        <option value="2">R$1.000 - 3.000</option>
-                                        <option value="3">R$ 3.000 – 5.000</option>
-                                        <option value="4">R$ 5.000 – 7.000</option>
-                                        <option value="5">R$ 7.000 – 10.000</option>
+                                        <option value="1">Gratuito</option>
+                                        <option value="2">Até R$ 1.000</option>
+                                        <option value="3">R$1.000 - 3.000</option>
+                                        <option value="4">R$ 3.000 – 5.000</option>
+                                        <option value="5">R$ 5.000 – 7.000</option>
+                                        <option value="6">R$ 7.000 – 10.000</option>
                                     </select>
                                 </div>
                             </div>
@@ -264,7 +266,7 @@
                                 </div>  
                             </div>
                             <div class="input-group pull-right">
-                                <button class="btn btn-primary" type="submit">Pesquisar</button>
+                                <button id="pesquisar" class="btn btn-success" type="submit">Pesquisar</button>
                                 
                             </div>
                         </form>
@@ -536,6 +538,10 @@
             //here it will populate the second select
             });
 
+        });
+        $( "#pesquisar" ).click(function() {
+            var idCidade = $('#bairro').val();
+            alert( idCidade );
         });
     </script>
     <!--page level js ends-->
