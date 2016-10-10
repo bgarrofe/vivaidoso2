@@ -1,0 +1,67 @@
+<form id="post-form" class="m-t" role="form" method="post" action="{% url 'empresa' %}">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-sm-6 b-r">
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                {{ form.nome.errors }}
+                <label for="{{ form.nome.id_for_label }}">Nome:</label>
+                {{ form.nome }}
+            </div>
+            <div class="form-group">
+                {{ form.nat_juridica.errors }}
+                <label for="{{ form.nat_juridica.id_for_label }}">Natureza Jurídica:</label>
+                {{form.nat_juridica}}
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                {{ form.horario_visita.errors }}
+                <label for="{{ form.horario_visita.id_for_label }}">Horário de Visita:</label>
+                {{ form.horario_visita }}
+            </div>
+            <div class="form-group">
+                {{ form.lot_maxima.errors }}
+                <label for="{{ form.lot_maxima.id_for_label }}">Lotação Máxima:</label>
+                {{ form.lot_maxima }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">Apresentação</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">Serviços</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">Admissão</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">Atividades</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-5" aria-expanded="false">Localização</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab-1" class="tab-pane active">
+                <div class="panel-body">
+                    {{form.apresentacao}}
+                </div>
+            </div>
+            <div id="tab-2" class="tab-pane">
+                <div class="panel-body">
+                    {{form.servicos}}
+                </div>
+            </div>
+            <div id="tab-3" class="tab-pane">
+                <div class="panel-body">
+                    {{form.admissao}}
+                </div>
+            </div>
+            <div id="tab-4" class="tab-pane">
+                <div class="panel-body">
+                    {{form.atividades}}
+                </div>
+            </div>
+            <div id="tab-5" class="tab-pane">
+                <div class="panel-body">
+                    {{form.localizacao}}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

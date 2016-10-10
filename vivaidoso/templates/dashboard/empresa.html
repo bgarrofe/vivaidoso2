@@ -35,13 +35,115 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>Cadastro</h5>
+                            <h5>Parâmetros</h5>
                         </div>
                         <div class="ibox-content">
-                            <p>
-                                Cadastre os dados da empresa
-                            </p>
-                            {{form}}
+                            <div class="row">
+                                <div class="col-lg-8 b-r">
+                                    <p>
+                                        Basic example via data attributes: <span class="text-muted">(type 'item...')</span>
+                                    </p>
+                                    <div class="row">
+                                        <div class="col-lg-9">
+                                            <select id="myselect_1" class="select2_demo_3 form-control">
+                                                <option></option>
+                                            </select>   
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <button id="mysubmit_1" class="btn btn-primary btn-sm" type="button"><i class="fa fa-check"></i>&nbsp;Gerar dados</button>
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="col-lg-4 text-center">
+                                    <p>
+                                        Cadastrar nova empresa
+                                    </p>
+                                    <button id="mysubmit_2" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i>&nbsp; Gerar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Cadastro</h5>
+                            <div class="ibox-tools">
+                                <div class="pull-right">
+                                    <button id="mysubmit_3" class="btn btn-sm btn-primary pull-right m-t-n-xs" type="button"><strong>Salvar</strong></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="dynamic" class="ibox-content">
+                            <form id="post-form" class="m-t" role="form" method="post" action="{% url 'empresa' %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-sm-6 b-r">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            {{ form.nome.errors }}
+                                            <label for="{{ form.nome.id_for_label }}">Nome:</label>
+                                            {{ form.nome }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.nat_juridica.errors }}
+                                            <label for="{{ form.nat_juridica.id_for_label }}">Natureza Jurídica:</label>
+                                            {{form.nat_juridica}}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            {{ form.horario_visita.errors }}
+                                            <label for="{{ form.horario_visita.id_for_label }}">Horário de Visita:</label>
+                                            {{ form.horario_visita }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.lot_maxima.errors }}
+                                            <label for="{{ form.lot_maxima.id_for_label }}">Lotação Máxima:</label>
+                                            {{ form.lot_maxima }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">Apresentação</a></li>
+                                        <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">Serviços</a></li>
+                                        <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">Admissão</a></li>
+                                        <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">Atividades</a></li>
+                                        <li class=""><a data-toggle="tab" href="#tab-5" aria-expanded="false">Localização</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="tab-1" class="tab-pane active">
+                                            <div class="panel-body">
+                                                {{form.apresentacao}}
+                                            </div>
+                                        </div>
+                                        <div id="tab-2" class="tab-pane">
+                                            <div class="panel-body">
+                                                {{form.servicos}}
+                                            </div>
+                                        </div>
+                                        <div id="tab-3" class="tab-pane">
+                                            <div class="panel-body">
+                                                {{form.admissao}}
+                                            </div>
+                                        </div>
+                                        <div id="tab-4" class="tab-pane">
+                                            <div class="panel-body">
+                                                {{form.atividades}}
+                                            </div>
+                                        </div>
+                                        <div id="tab-5" class="tab-pane">
+                                            <div class="panel-body">
+                                                {{form.localizacao}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -63,6 +165,103 @@
 {% block end_js %}
     <!-- Select2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script>
+        options = {
+            "theme": "modern", 
+            "selector": "", 
+            "toolbar": "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons", 
+            "plugins": "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking save table contextmenu directionality emoticons template paste textcolor",
+            setup: function (editor) {
+                editor.on('change', function () {
+                    tinymce.triggerSave();
+                });
+            }}
+        
+        $("#mysubmit_1").click(function() {
+            cod = $("#myselect_1").val()
+            if (cod != '') {
+                $.ajax({
+                    url:'/dashboard/empresa/'+cod+'/',
+                    type:'GET',
+                    success: function( data ) {
+                        // response is form in html format
+                        $("#dynamic").html(data);
+                        tinyMCE.remove();
+                        options['selector'] = "#id_apresentacao";
+                        tinyMCE.init(options);
+                        options['selector'] = "#id_servicos";
+                        tinyMCE.init(options);
+                        options['selector'] = "#id_admissao";
+                        tinyMCE.init(options);
+                        options['selector'] = "#id_atividades";
+                        tinyMCE.init(options);
+                        options['selector'] = "#id_localizacao";
+                        tinyMCE.init(options);
+                    }
+                });
+            }
+        });
+        $("#mysubmit_2").click(function() {
+            cod = '9999'
+            $.ajax({
+                url:'/dashboard/empresa/'+cod+'/',
+                type:'GET',
+                success: function( data ) {
+                    // response is form in html format
+                    $("#dynamic").html(data);
+                    tinyMCE.remove();
+                    options['selector'] = "#id_apresentacao";
+                    tinyMCE.init(options);
+                    options['selector'] = "#id_servicos";
+                    tinyMCE.init(options);
+                    options['selector'] = "#id_admissao";
+                    tinyMCE.init(options);
+                    options['selector'] = "#id_atividades";
+                    tinyMCE.init(options);
+                    options['selector'] = "#id_localizacao";
+                    tinyMCE.init(options);
+                }
+            });
+        });
+        $(".select2_demo_3").select2({
+            placeholder: "Selecione uma empresa",
+            allowClear: true
+        });
+        // Submit post on submit
+        $("#mysubmit_3").click(function() {
+  
+        var frm = $('#post-form');
+        //$('#post-form').on('submit', function(event){
+            //event.preventDefault();
+            
+            cod = $("#myselect_1").val();
+            $.ajax({
+                url:'/dashboard/empresa/'+cod+'/',
+                type:'POST',
+                data : frm.serialize(),
+                success : function(data) {
+                    
+                    
+                },
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+                    //$('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                    //    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                }
+            }); 
+        });
+        $.ajax({
+            url:'/ajax/get_empresas',
+            type:'GET',
+            dataType: 'json',
+            success: function( data ) {
+                $.each(data, function(i, value) {
+                    $('#myselect_1').append($('<option>').text(value[1]).attr('value', value[0]));
+                });
+            }
+        });
+    </script>
 
     
 {% endblock %}

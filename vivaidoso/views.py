@@ -9,7 +9,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.core import serializers
 from forms import MyRegistrationForm, UploadFileForm, UserProfileForm, EmpresaForm
-from vivaidoso.models import Estado, Cidade, Bairro
+from vivaidoso.models import Estado, Cidade, Bairro, Empresa
 import json
 
 def index(request):
@@ -42,18 +42,37 @@ def dashboard(request):
 	else:
 		return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
 
-def empresa(request):
+def empresa(request, cod=None):
     if request.user.is_authenticated():
         if request.method == 'POST':
-            form = EmpresaForm(request.POST)
+            empresa = Empresa.objects.get(id=cod)
+            form = EmpresaForm(request.POST or None,instance=empresa)
+            response_data = {}
             if form.is_valid():
                 form.save()
-                return render(request, 'dashboard/empresa.html', {'form': form})
+                response_data['result'] = 'Model updated!'
+                response_data['status'] = 'success'
+                return HttpResponse(json.dumps(response_data),content_type="application/json")
+            else:
+                response_data['result'] = 'Form not valid!'
+                response_data['data'] = form.errors
+                response_data['status'] = 'error'
+                return HttpResponse(json.dumps(response_data),content_type="application/json")
+                #return render(request, 'dashboard/empresa_detail.html', {'form': form})
         else:
-            form = EmpresaForm()
-            return render(request, 'dashboard/empresa.html', {'form': form})
+            if cod:
+                try:
+                   empresa = Empresa.objects.get(id=cod)
+                except Empresa.DoesNotExist:
+                   empresa = None
+                form = EmpresaForm(instance=empresa)
+                #return HttpResponse(form.as_p()) # return a html str
+                return render(request, 'dashboard/empresa_detail.html', {'form': form})
+            else:
+                form = EmpresaForm()
+                return render(request, 'dashboard/empresa.html', {'form': form})
     else:
-        return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+		return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path)) 
 
 def profile(request):
     if request.user.is_authenticated():
@@ -78,3 +97,11 @@ def profile_update(request):
             return HttpResponse("Post not ok!")
     else:
         return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+
+def ajax_empresas(request):
+    
+    dados = Empresa.objects.all().values_list('id', 'nome')
+    
+    data = json.dumps(list(dados))
+    
+    return HttpResponse(data, content_type='application/json')

@@ -1,7 +1,9 @@
+# -*- coding: latin-1 -*-
 from django import forms            
 from django.contrib.auth.models import User   # fill in custom user info then save it 
 from django.contrib.auth.forms import UserCreationForm
 from vivaidoso.models import UserProfile, Empresa
+from tinymce.widgets import TinyMCE
 import datetime
 
 GENDER_CHOICES = (
@@ -50,6 +52,15 @@ class UserProfileForm(forms.ModelForm):
         fields = ('bio', 'location', 'gender', 'birth_date')
 
 class EmpresaForm(forms.ModelForm):
+    nome = forms.CharField(required = True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome'}))
+    nat_juridica = forms.CharField(required = False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Natureza Jurídica'}))
+    horario_visita = forms.CharField(required = False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Horário de Visita'}))
+    lot_maxima = forms.CharField(required = False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Lotação Máxima'}))
+    apresentacao = forms.CharField(required = False, widget=TinyMCE())
+    servicos = forms.CharField(required = False, widget=TinyMCE())
+    admissao = forms.CharField(required = False, widget=TinyMCE())
+    atividades = forms.CharField(required = False, widget=TinyMCE())
+    localizacao = forms.CharField(required = False, widget=TinyMCE())
     
     class Meta:
         model = Empresa
