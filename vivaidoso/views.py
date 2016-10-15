@@ -21,6 +21,10 @@ def sobre_nos(request):
 def contatos(request):
     return render(request, 'vivaidoso/contatos.html', {})
 
+def pesquisar(request):
+    empresas = Empresa.objects.all()
+    return render(request, 'vivaidoso/pesquisar.html', {'empresas': empresas})
+
 def ajax_estados(request):
     estados = Estado.objects.all()
     data = serializers.serialize("json", estados)
@@ -45,7 +49,14 @@ def dashboard(request):
 def empresa(request, cod=None):
     if request.user.is_authenticated():
         if request.method == 'POST':
-            empresa = Empresa.objects.get(id=cod)
+            if cod:
+                try:
+                    empresa = Empresa.objects.get(id=cod)
+                except Empresa.DoesNotExist:
+                    empresa = None
+            else:
+                empresa = None
+
             form = EmpresaForm(request.POST or None,instance=empresa)
             response_data = {}
             if form.is_valid():

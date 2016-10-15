@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^sobre-nos/$', views.sobre_nos, name='sobre-nos'),
     url(r'^contatos/$', views.contatos, name='contatos'),
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
+    url(r'^pesquisar/$', views.pesquisar, name='pesquisar'),
     url(r'^dashboard/empresa/(?P<cod>\w+)/', views.empresa, name='empresa'),
     url(r'^dashboard/empresa/', views.empresa, name='empresa'),
     url(r'^ajax/get_empresas/', views.ajax_empresas, name='ajax_empresas'),

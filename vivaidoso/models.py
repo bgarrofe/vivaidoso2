@@ -43,6 +43,8 @@ class Bairro(models.Model):
 
 class Empresa(models.Model):
     nome = models.CharField(max_length=140)
+    descricao = models.CharField(max_length=200)
+    bairro = models.ForeignKey(Bairro, on_delete=models.CASCADE)
     nat_juridica = models.CharField(max_length=60)
     horario_visita = models.CharField(max_length=60)
     lot_maxima = models.CharField(max_length=60)

@@ -2,7 +2,6 @@
 {% load staticfiles %}
 
 {% block start_css %}
-    <link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
     <!-- Select2 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     {{ form.media }}
@@ -32,6 +31,8 @@
         </div>
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
+                <div id="alert-status" data-alerts="alerts" data-fade="3000"></div>
+
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
@@ -165,6 +166,8 @@
 {% block end_js %}
     <!-- Select2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <!-- JQuery BS Alert -->
+    <script src="{% static 'js/plugins/jquery-bs-alerts/jquery.bsAlerts.min.js' %}"></script>
     <script>
         options = {
             "theme": "modern", 
@@ -240,14 +243,22 @@
                 type:'POST',
                 data : frm.serialize(),
                 success : function(data) {
-                    
-                    
-                },
-                // handle a non-successful response
-                error : function(xhr,errmsg,err) {
-                    //$('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-                    //    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                    if (data.status == 'success') {
+                        $(document).trigger("add-alerts", [
+                            {
+                              'message': data.result,
+                              'priority': 'success'
+                            }
+                          ]);
+                        
+                    } else if (data.status == 'error') {
+                        $(document).trigger("add-alerts", [
+                            {
+                              'message': data.result,
+                              'priority': 'warning'
+                            }
+                          ]);
+                    }
                 }
             }); 
         });
