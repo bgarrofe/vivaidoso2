@@ -1,0 +1,147 @@
+{% extends 'vivaidoso/base.html' %}
+{% load staticfiles %}
+
+{% block start_css %}
+    <!--page level css starts-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/frontend/tabbular.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendors/animate/animate.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/frontend/jquery.circliful.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendors/owl.carousel/css/owl.carousel.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendors/owl.carousel/css/owl.theme.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-select.min.css' %}">
+    <!--end of page level css-->
+{% endblock %}
+
+{% block content %}
+
+        <div class="container">
+            <div class="row">
+                <div class="row indent">
+                    <!-- Fotos Start -->
+                    <div class="col-md-6 col-sm-6 wow slideInLeft">
+                        <div class="text-left">
+                            <div>
+                                <h4 class="border-default"><span class="heading_default bg-default">Fotos</span></h4>
+                            </div>
+                        </div>
+                        {% if images %}
+                            <div class="carousel slide" id="carousel1">
+                                <div class="carousel-inner">
+                                    {% for image in images %}
+                                        <div class="item{% if forloop.first %} active{% endif %}">
+                                            <img alt="image" class="img-responsive" src="{{image.file.url}}">
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <a data-slide="prev" href="#carousel1" class="left carousel-control">
+                                    <span class="icon-prev"></span>
+                                </a>
+                                <a data-slide="next" href="#carousel1" class="right carousel-control">
+                                    <span class="icon-next"></span>
+                                </a>
+                            </div>
+                        {% else %}
+                            
+                        {% endif %}
+                    </div>
+                    <!-- Fotos End -->
+                    <!-- Detalhes Start -->
+                    <div class="col-md-6 col-sm-6 wow slideInRight">
+                        <div class="text-left">
+                            <div>
+                                <h4 class="border-default"><span class="heading_default bg-default">Detalhes</span></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p>
+                                    <strong>Nome da Empresa: </strong> <br>
+                                    {{ empresa.nome }}
+                                </p>
+                                <p> 
+                                    <strong>Natureza Jurídica:</strong> <br>
+                                    {{ empresa.nat_juridica }}
+                                </p>
+                                <p> 
+                                    <strong>Bairro:</strong> <br>
+                                    {{ empresa.bairro }}
+                                </p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p> 
+                                    <strong>Horário de Visita:</strong> <br>
+                                    {{ empresa.horario_visita }}
+                                </p>
+                                <p> 
+                                    <strong>Lotação Máxima:</strong> <br>
+                                    {{ empresa.lot_maxima }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p> 
+                                    <strong>Descrição:</strong> <br>
+                                    {{ empresa.descricao }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- //Detalhes End -->
+                </div>
+                <div class="row indent">
+                    <div class="col-md-12 col-sm-12 wow bounceIn">
+                        
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">Apresentação</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">Serviços</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">Admissão</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">Atividades</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-5" aria-expanded="false">Localização</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+                                    {{empresa.apresentacao|safe}}
+                                </div>
+                            </div>
+                            <div id="tab-2" class="tab-pane">
+                                <div class="panel-body">
+                                    {{empresa.servicos|safe}}
+                                </div>
+                            </div>
+                            <div id="tab-3" class="tab-pane">
+                                <div class="panel-body">
+                                    {{empresa.admissao|safe}}
+                                </div>
+                            </div>
+                            <div id="tab-4" class="tab-pane">
+                                <div class="panel-body">
+                                    {{empresa.atividades|safe}}
+                                </div>
+                            </div>
+                            <div id="tab-5" class="tab-pane">
+                                <div class="panel-body">
+                                    {{empresa.localizacao|safe}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block end_js %}
+    <!-- begining of page level js -->
+    <!--tags-->
+    <script src="{% static 'vendors/bootstrap-tagsinput/js/bootstrap-tagsinput.js' %}"></script>
+    <script src="{% static 'vendors/wow/js/wow.min.js' %}"></script>
+    <script>
+        jQuery(document).ready(function () {
+            new WOW().init();
+        });
+    </script>
+    <!-- end of page level js -->
+{% endblock %}

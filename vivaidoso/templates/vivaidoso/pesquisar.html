@@ -55,15 +55,15 @@
                     <ul>
                         {% for empresa in empresas %}
                             <li class="search-item clearfix">
-                                <a href="#">
-                                    <img src="{% static 'img/page_general_search/01.jpg' %}">
+                                <a href="/pesquisar/{{ empresa.id }}/">
+                                    <img src="{{ empresa.image }}">
                                 </a>
                                 <div class="search-content">
                                     <h2 class="search-title">
-                                        <a href="#">{{ empresa.nome }}</a>
+                                        <a href="/pesquisar/{{ empresa.id }}/">{{ empresa.nome }}</a>
                                     </h2>
-                                    <small class="search-desc">Faro, São Brás de Alportel</small>
-                                    <p > {{ empresa.apresentacao }} </p>
+                                    <small class="search-desc">{{ empresa.bairro }}</small>
+                                    <p > {{ empresa.descricao }} </p>
                                     <div class="row">
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-danger">Lar</button>
@@ -75,146 +75,6 @@
                                 </div>
                             </li>
                         {% endfor %}
-                        <li class="search-item clearfix">
-                            <a href="#">
-                                <img src="{% static 'img/page_general_search/01.jpg' %}">
-                            </a>
-                            <div class="search-content">
-                                <h2 class="search-title">
-                                    <a href="#">Casa de Repouso e Saúde de S. Brás</a>
-                                </h2>
-                                <small class="search-desc">Faro, São Brás de Alportel</small>
-                                <p > Beneficiando de microclima privilegiado, entre o litoral e a serra algarvia, e implantada numa área de dois hectares, em zona de baixa densidade de construção, a Casa de (...) </p>
-                                <div class="row">
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-danger">Lar</button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-cog" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-anchor" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-calculator" aria-hidden="true"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="search-item clearfix">
-                            <a href="#">
-                                <img src="{% static 'img/page_general_search/1.jpg' %}">
-                            </a>
-                            <div class="search-content">
-                                <h2 class="search-title">
-                                    <a href="javascript:;">Lorem ipsum dolor</a>
-                                </h2>
-                                <small class="search-desc">Faro, São Brás de Alportel</small>
-                                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur pellentesque auctor. Morbi lobortis, leo in tristique scelerisque, mauris quam volutpat nunc </p>
-                                <div class="row">
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-danger">Lar</button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-cog" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-anchor" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-calculator" aria-hidden="true"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="search-item clearfix">
-                            <a href="javascript:;">
-                                <img src="{% static 'img/page_general_search/02.jpg' %}">
-                            </a>
-                            <div class="search-content">
-                                <h2 class="search-title">
-                                    <a href="javascript:;">sit amet</a>
-                                </h2>
-                                <small class="search-desc">Faro, São Brás de Alportel</small>
-                                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur pellentesque auctor. Morbi lobortis, leo in tristique scelerisque, mauris quam volutpat nunc </p>
-                                <div class="row">
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-danger">Lar</button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-cog" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-anchor" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-calculator" aria-hidden="true"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="search-item clearfix">
-                            <a href="javascript:;">
-                                <img src="{% static 'img/page_general_search/2.jpg' %}">
-                            </a>
-                            <div class="search-content">
-                                <h2 class="search-title">
-                                    <a href="javascript:;">consectetur adipiscing</a>
-                                </h2>
-                                <small class="search-desc">Faro, São Brás de Alportel</small>
-                                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur pellentesque auctor. Morbi lobortis, leo in tristique scelerisque, mauris quam volutpat nunc </p>
-                                <div class="row">
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-danger">Lar</button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-cog" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-anchor" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-calculator" aria-hidden="true"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="search-item clearfix">
-                            <a href="javascript:;">
-                                <img src="{% static 'img/page_general_search/03.jpg' %}">
-                            </a>
-                            <div class="search-content">
-                                <h2 class="search-title">
-                                    <a href="javascript:;">Donec efficitur</a>
-                                </h2>
-                                <small class="search-desc">Faro, São Brás de Alportel</small>
-                                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur pellentesque auctor. Morbi lobortis, leo in tristique scelerisque, mauris quam volutpat nunc </p>
-                                <div class="row">
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-danger">Lar</button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-cog" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-anchor" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-calculator" aria-hidden="true"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="search-item clearfix">
-                            <a href="javascript:;">
-                                <img src="{% static 'img/page_general_search/05.jpg' %}">
-                            </a>
-                            <div class="search-content">
-                                <h2 class="search-title">
-                                    <a href="javascript:;">mauris quam</a>
-                                </h2>
-                                <small class="search-desc">Faro, São Brás de Alportel</small>
-                                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur pellentesque auctor. Morbi lobortis, leo in tristique scelerisque, mauris quam volutpat nunc </p>
-                                <div class="row">
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-danger">Lar</button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-cog" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-anchor" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-calculator" aria-hidden="true"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="search-item clearfix">
-                            <a href="javascript:;">
-                                <img src="{% static 'img/page_general_search/5.jpg' %}">
-                            </a>
-                            <div class="search-content">
-                                <h2 class="search-title">
-                                    <a href="javascript:;">volutpat nunc</a>
-                                </h2>
-                                <small class="search-desc">Faro, São Brás de Alportel</small>
-                                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur pellentesque auctor. Morbi lobortis, leo in tristique scelerisque, mauris quam volutpat nunc </p>
-                                <div class="row">
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-danger">Lar</button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-cog" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-anchor" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-default"><i class="fa fa-calculator" aria-hidden="true"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
                     </ul>
                     <div class="search-pagination">
                         <ul class="pagination">

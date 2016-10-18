@@ -134,6 +134,11 @@ p label {
 /* ---------- //Why choose us Section End ---------- */
 /* ---------- Text-Bg Border color Code Css ---------- */
 
+.border-default {
+    border-bottom: 2px solid #f5f5f5;
+    padding-bottom: 5px;
+}
+
 .border-primary {
     border-bottom: 2px solid #418bca;
     padding-bottom: 5px;
@@ -528,6 +533,13 @@ blockquote {
     border-color: #DDD;
 }
 /* ---------- Headings Border Css ---------- */
+
+.heading_default {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-bottom: 15px;
+    padding: 5px 15px;
+}
 
 .heading_border {
     color: #fff;

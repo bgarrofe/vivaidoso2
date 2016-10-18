@@ -2,7 +2,7 @@
 from django import forms            
 from django.contrib.auth.models import User   # fill in custom user info then save it 
 from django.contrib.auth.forms import UserCreationForm
-from vivaidoso.models import UserProfile, Empresa
+from vivaidoso.models import UserProfile, Empresa, Bairro, UploadFile
 from tinymce.widgets import TinyMCE
 import datetime
 
@@ -36,9 +36,13 @@ class MyRegistrationForm(UserCreationForm):
             
         return user
 
-class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=50)
+class UploadFileForm(forms.ModelForm):
+    title = forms.CharField(required = False, max_length=50)
     file = forms.FileField()
+    
+    class Meta:
+        model = UploadFile
+        fields = ('title', 'file')
     
 class UserProfileForm(forms.ModelForm):
     bio = forms.CharField(required = False, widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Bio'}))
@@ -49,10 +53,12 @@ class UserProfileForm(forms.ModelForm):
     
     class Meta:
         model = UserProfile
-        fields = ('bio', 'location', 'gender', 'birth_date')
+        fields = ('bio', 'location', 'gender', 'birth_date')        
 
 class EmpresaForm(forms.ModelForm):
     nome = forms.CharField(required = True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome'}))
+    descricao = forms.CharField(required = True, widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descrição', 'rows': '5'}))
+    bairro = forms.ModelChoiceField(required = True, empty_label="Selecionar...", queryset=Bairro.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
     nat_juridica = forms.CharField(required = False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Natureza Jurídica'}))
     horario_visita = forms.CharField(required = False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Horário de Visita'}))
     lot_maxima = forms.CharField(required = False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Lotação Máxima'}))
@@ -64,6 +70,4 @@ class EmpresaForm(forms.ModelForm):
     
     class Meta:
         model = Empresa
-        fields = ('nome','nat_juridica', 'horario_visita', 'lot_maxima', 'apresentacao', 'servicos', 'admissao', 'atividades', 'localizacao')
-        
-    
+        fields = ('nome', 'descricao', 'bairro', 'nat_juridica', 'horario_visita', 'lot_maxima', 'apresentacao', 'servicos', 'admissao', 'atividades', 'localizacao')

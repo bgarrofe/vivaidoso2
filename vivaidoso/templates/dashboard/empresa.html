@@ -4,6 +4,9 @@
 {% block start_css %}
     <!-- Select2 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <!-- DropZone JS -->
+    <link href="{% static 'css/plugins/dropzone/basic.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/plugins/dropzone/dropzone.css' %}" rel="stylesheet" />
     {{ form.media }}
 {% endblock %}
 
@@ -47,7 +50,7 @@
                                     <div class="row">
                                         <div class="col-lg-9">
                                             <select id="myselect_1" class="select2_demo_3 form-control">
-                                                <option></option>
+                                                <option value="-1">Selecionar...</option>
                                             </select>   
                                         </div>
                                         <div class="col-lg-2">
@@ -82,29 +85,77 @@
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-sm-6 b-r">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a data-toggle="tab" href="#foto-1" aria-expanded="true">Fotos</a></li>
+                                            <li class=""><a data-toggle="tab" href="#foto-2" aria-expanded="false">Upload</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div id="foto-1" class="tab-pane active">
+                                                <div class="carousel slide" id="carousel1">
+                                                    <div class="carousel-inner">
+                                                        {% for image in images %}
+                                                            <div class="item{% if forloop.first %} active{% endif %}">
+                                                                <img alt="image" class="img-responsive" src="{{image.file.url}}">
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <a data-slide="prev" href="#carousel1" class="left carousel-control">
+                                                        <span class="icon-prev"></span>
+                                                    </a>
+                                                    <a data-slide="next" href="#carousel1" class="right carousel-control">
+                                                        <span class="icon-next"></span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div id="foto-2" class="tab-pane">
+                                                <div action="#" class="dropzone" id="dropzoneForm">
+                                                    <div class="fallback">
+                                                        <input name="file" type="file" multiple />
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            {{ form.nome.errors }}
-                                            <label for="{{ form.nome.id_for_label }}">Nome:</label>
-                                            {{ form.nome }}
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    {{ form.nome.errors }}
+                                                    <label for="{{ form.nome.id_for_label }}">Nome da Empresa:</label>
+                                                    {{ form.nome }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ form.nat_juridica.errors }}
+                                                    <label for="{{ form.nat_juridica.id_for_label }}">Natureza Jurídica:</label>
+                                                    {{form.nat_juridica}}
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    {{ form.horario_visita.errors }}
+                                                    <label for="{{ form.horario_visita.id_for_label }}">Horário de Visita:</label>
+                                                    {{ form.horario_visita }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ form.lot_maxima.errors }}
+                                                    <label for="{{ form.lot_maxima.id_for_label }}">Lotação Máxima:</label>
+                                                    {{ form.lot_maxima }}
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            {{ form.nat_juridica.errors }}
-                                            <label for="{{ form.nat_juridica.id_for_label }}">Natureza Jurídica:</label>
-                                            {{form.nat_juridica}}
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            {{ form.horario_visita.errors }}
-                                            <label for="{{ form.horario_visita.id_for_label }}">Horário de Visita:</label>
-                                            {{ form.horario_visita }}
-                                        </div>
-                                        <div class="form-group">
-                                            {{ form.lot_maxima.errors }}
-                                            <label for="{{ form.lot_maxima.id_for_label }}">Lotação Máxima:</label>
-                                            {{ form.lot_maxima }}
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    {{ form.bairro.errors }}
+                                                    <label for="{{ form.bairro.id_for_label }}">Bairro:</label>
+                                                    {{ form.bairro }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ form.descricao.errors }}
+                                                    <label for="{{ form.descricao.id_for_label }}">Descrição:</label>
+                                                    {{ form.descricao }}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -168,7 +219,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <!-- JQuery BS Alert -->
     <script src="{% static 'js/plugins/jquery-bs-alerts/jquery.bsAlerts.min.js' %}"></script>
+    <!-- DropZone JS -->
+    <script src="{% static 'js/plugins/dropzone/dropzone.js' %}"></script>
     <script>
+        dropzone_options = {
+            url: "/ajax/upload_file/",
+            addRemoveLinks: true,
+            success: function (file, response) {
+                var imgName = response;
+                file.previewElement.classList.add("dz-success");
+                console.log("Successfully uploaded :" + imgName);
+            },
+            error: function (file, response) {
+                file.previewElement.classList.add("dz-error");
+            }
+        };
+        $(document).ready(function () {
+            Dropzone.autoDiscover = false;
+            $("#dropzoneForm").dropzone(dropzone_options);
+        });
         options = {
             "theme": "modern", 
             "selector": "", 
@@ -200,11 +269,14 @@
                         tinyMCE.init(options);
                         options['selector'] = "#id_localizacao";
                         tinyMCE.init(options);
+                        dropzone_options['url'] = '/ajax/upload_file/'+cod+'/';
+                        $("#dropzoneForm").dropzone(dropzone_options);
                     }
                 });
             }
         });
         $("#mysubmit_2").click(function() {
+            $('#myselect_1').val('-1').trigger('change');
             cod = '9999'
             $.ajax({
                 url:'/dashboard/empresa/'+cod+'/',
@@ -223,11 +295,15 @@
                     tinyMCE.init(options);
                     options['selector'] = "#id_localizacao";
                     tinyMCE.init(options);
+                    dropzone_options['url'] = '/ajax/upload_file/'+cod+'/';
+                    $("#dropzoneForm").dropzone(dropzone_options);
+                   
                 }
             });
         });
         $(".select2_demo_3").select2({
             placeholder: "Selecione uma empresa",
+            id: '-1', // the value of the option
             allowClear: true
         });
         // Submit post on submit
@@ -249,7 +325,19 @@
                               'message': data.result,
                               'priority': 'success'
                             }
-                          ]);
+                        ]);
+                        $.ajax({
+                            url:'/ajax/get_empresas',
+                            type:'GET',
+                            dataType: 'json',
+                            success: function( data ) {
+                                $('#myselect_1').empty();
+                                $.each(data, function(i, value) {
+                                    $('#myselect_1').append($('<option>').text(value[1]).attr('value', value[0]));
+                                });
+                                $('#myselect_1').val(cod).trigger('change');
+                            }
+                        });
                         
                     } else if (data.status == 'error') {
                         $(document).trigger("add-alerts", [

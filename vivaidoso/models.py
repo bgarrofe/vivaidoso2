@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from tinymce.models import HTMLField
+from .utils import upload_path_handler
 
 # Create your models here.
 
@@ -56,3 +57,11 @@ class Empresa(models.Model):
     
     def __unicode__(self):
         return u'Empresa: %s' % self.nome
+
+class UploadFile(models.Model):
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
+    title = models.CharField(max_length=140)
+    file = models.FileField(upload_to=upload_path_handler)
+    
+    def __unicode__(self):
+        return u'File: %s' % self.title
