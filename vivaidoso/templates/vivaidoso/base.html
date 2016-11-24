@@ -60,20 +60,18 @@
                     <li class="{% active '^/contatos/$' %}">
                         <a href="/contatos">Contatos</a>
                     </li>
-                    <li>
-                        <a href="/accounts/login/">Login</a>
-                    </li>
-                    <!--
-                    @if(Sentinel::guest())
-                        <li><a href="#">Login</a>
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a href="/dashboard"> Dashboard</a>
                         </li>
-                    @else
-                        <li><a href="#">My Account</a>
+                        <li>
+                            <a href="/accounts/logout/">Log out</a>
                         </li>
-                        <li><a href="#">Logout</a>
+                    {% else %}
+                        <li>
+                            <a href="/accounts/login/">Login</a>
                         </li>
-                    @endif
-                    -->
+                    {% endif %}
                 </ul>
             </div>
         </nav>
