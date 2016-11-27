@@ -34,7 +34,7 @@
         </div>
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
-                <div id="alert-status" data-alerts="alerts" data-fade="3000"></div>
+                <div id="alert-status" data-alerts="alerts" data-fade="5000"></div>
 
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
@@ -339,6 +339,7 @@
             //event.preventDefault();
             
             cod = $("#myselect_1").val();
+            console.log(cod);
             $.ajax({
                 url:'/dashboard/empresa/'+cod+'/',
                 type:'POST',
@@ -347,7 +348,7 @@
                     if (data.status == 'success') {
                         $(document).trigger("add-alerts", [
                             {
-                              'message': data.result,
+                              'message': '<strong>' + data.result + '</strong>',
                               'priority': 'success'
                             }
                         ]);
@@ -365,9 +366,14 @@
                         });
                         
                     } else if (data.status == 'error') {
+                        result = '<ul>';
+                        $.each(data.data, function(i, value) {
+                            result += '<li><strong>' + i + '</strong>: ' + value + '</li>'
+                        });
+                        result += '</ul>';
                         $(document).trigger("add-alerts", [
                             {
-                              'message': data.result,
+                              'message': '<strong>' + data.result + '</strong>' + result,
                               'priority': 'warning'
                             }
                           ]);
