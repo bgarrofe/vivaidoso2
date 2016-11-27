@@ -28,7 +28,7 @@ SECRET_KEY = 'd!=g^o3r98e!6p^vf8-u6bv#xbd+-cc)f6o_0m8j(qw#ivv97t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.105','localhost']
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'avatar',
     'tinymce',
+    'multiselectfield',
 ]
 
 MIDDLEWARE_CLASSES = [

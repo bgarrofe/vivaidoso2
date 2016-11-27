@@ -13,6 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from forms import MyRegistrationForm, UploadFileForm, UserProfileForm, EmpresaForm
 from vivaidoso.models import Estado, Cidade, Bairro, Empresa, UploadFile
 import json
+from utils import multiple_select_fields
 
 def index(request):
     return render(request, 'vivaidoso/index.html', {})
@@ -38,7 +39,8 @@ def pesquisar(request, cod=None):
         except Empresa.DoesNotExist:   
             images = None
         
-        return render(request, 'vivaidoso/empresa.html', {'empresa': empresa, 'images': images})
+        result = multiple_select_fields(empresa)
+        return render(request, 'vivaidoso/empresa.html', {'empresa': empresa, 'images': images, 'detalhes': result})
     else:
         empresas = Empresa.objects.all()
         result = []
@@ -107,9 +109,9 @@ def empresa(request, cod=None):
         else:
             if cod:
                 try:
-                   empresa = Empresa.objects.get(id=cod)
+                    empresa = Empresa.objects.get(id=cod)
                 except Empresa.DoesNotExist:
-                   empresa = None
+                    empresa = None
                 form = EmpresaForm(instance=empresa)
                 
                 try:

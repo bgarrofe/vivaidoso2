@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: latin-1 -*-
 from django.db import models
 from adaptor.model import CsvModel
 from adaptor.fields import DateField, FloatField
@@ -5,9 +7,47 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from tinymce.models import HTMLField
+from multiselectfield import MultiSelectField
 from .utils import upload_path_handler
 
 # Create your models here.
+
+MY_CHOICES = (
+    (1, 'Gratuito'),
+    (2, 'Até R$ 1.000'),
+    (3, 'R$ 1.000 a 3.000'),
+    (4, 'R$ 3.000 a 5.000'),
+    (5, 'R$ 5.000 a 7.000'),
+    (6, 'R$ 7.000 a 10.000')
+)
+
+MY_CHOICES2 = (
+    (1, 'Individual'),
+    (2, 'Duplo'),
+    (3, 'Triplo'),
+    (4, 'Quádruplo')
+)
+
+MY_CHOICES3 = (
+    (1, 'Grau 1'),
+    (2, 'Grau 2'),
+    (3, 'Grau 3')
+)
+
+MY_CHOICES4 = (
+    (1, 'Masculino'),
+    (2, 'Feminino'),
+    (3, 'Misto')
+)
+
+MY_CHOICES5 = (
+    (1, 'Nenhum'),
+    (2, 'Cuidador individual 24hrs'),
+    (3, 'Fisioterapeuta'),
+    (4, 'Terapia Ocupacional'),
+    (5, 'Psicólogo'),
+    (6, 'Acompanhamento médico')
+)
 
 class UserProfile(models.Model):  
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -40,7 +80,7 @@ class Bairro(models.Model):
     desc_bairro = models.TextField(max_length=60, blank=False)
     
     def __unicode__(self):
-        return u'Bairro: %s' % self.desc_bairro
+        return u'%s' % self.desc_bairro
 
 class Empresa(models.Model):
     nome = models.CharField(max_length=140)
@@ -49,6 +89,11 @@ class Empresa(models.Model):
     nat_juridica = models.CharField(max_length=60)
     horario_visita = models.CharField(max_length=60)
     lot_maxima = models.CharField(max_length=60)
+    faixa_valor = MultiSelectField(choices=MY_CHOICES,default=1)
+    leitos = MultiSelectField(choices=MY_CHOICES2,default=1)
+    dependencia = models.IntegerField(choices=MY_CHOICES3,default=1)
+    sexo = MultiSelectField(choices=MY_CHOICES4,default=1)
+    servicos_incl = MultiSelectField(choices=MY_CHOICES5,default=1)
     apresentacao = HTMLField()
     servicos = HTMLField()
     admissao = HTMLField()
