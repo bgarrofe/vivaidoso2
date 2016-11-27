@@ -5,9 +5,10 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#foto-1" aria-expanded="true">Fotos</a></li>
                 <li class=""><a data-toggle="tab" href="#foto-2" aria-expanded="false">Upload</a></li>
+                <li class=""><a data-toggle="tab" href="#foto-3" aria-expanded="false">Apagar</a></li>
             </ul>
             <div class="tab-content">
-                <div id="foto-1" class="tab-pane active">
+                <div role="tabpanel" id="foto-1" class="tab-pane active">
                     <div class="carousel slide" id="carousel1">
                         <div class="carousel-inner">
                             {% for image in images %}
@@ -24,12 +25,34 @@
                         </a>
                     </div>
                 </div>
-                <div id="foto-2" class="tab-pane">
+                <div role="tabpanel" id="foto-2" class="tab-pane">
                     <div action="#" class="dropzone" id="dropzoneForm">
                         <div class="fallback">
                             <input name="file" type="file" multiple />
                         </div>
                     </div> 
+                </div>
+                <div role="tabpanel" id="foto-3" class="tab-pane">
+                    <div class="panel-body">
+                        <table class="table"> 
+                            <thead> 
+                                <tr> 
+                                    <th>#</th> 
+                                    <th>Image</th> 
+                                    <th>Action</th>
+                                </tr> 
+                            </thead> 
+                            <tbody>
+                                {% for image in images %}
+                                <tr> 
+                                    <th scope="row">{{forloop.counter}}</th> 
+                                    <td><img alt="image" height="75" width="75" class="img-responsive" src="{{image.file.url}}"></td> 
+                                    <td><button type="button" class="btn btn-white btn-xs" data-toggle="modal" data-target="#deleteModal" data-id="{{image.id}}"><i class="fa fa-trash-o"></i> Delete!</button></td> 
+                                </tr>
+                                {% endfor %}
+                            </tbody> 
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -138,3 +161,55 @@
         </div>
     </div>
 </form>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Delete</h4>
+      </div>
+      <div class="modal-body">
+        <p>Tem certeza que deseja apagar a imagem?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button id="btnDelete" type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+$('#deleteModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var image_id = button.data('id') // Extract info from data-* attributes
+    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    var modal = $(this);
+    modal.data('id', image_id);
+})
+$('#btnDelete').click(function() {
+    var image_id = $('#deleteModal').data('id');
+    $.ajax({
+        url:'/delete-image/'+image_id+'/',
+        type:'GET',
+        success : function(data) {
+            if (data.status == 'success') {
+                $(document).trigger("add-alerts", [
+                    {
+                      'message': '<strong>' + data.result + '</strong>',
+                      'priority': 'success'
+                    }
+                ]);
+            } else if (data.status == 'error') {
+                $(document).trigger("add-alerts", [
+                    {
+                      'message': '<strong>' + data.result + '</strong>',
+                      'priority': 'warning'
+                    }
+                  ]);
+            }
+        }
+    }); 
+});
+</script>

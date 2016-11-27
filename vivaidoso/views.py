@@ -14,6 +14,7 @@ from forms import MyRegistrationForm, UploadFileForm, UserProfileForm, EmpresaFo
 from vivaidoso.models import Estado, Cidade, Bairro, Empresa, UploadFile
 import json
 from utils import multiple_select_fields
+from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
 def index(request):
     return render(request, 'vivaidoso/index.html', {})
@@ -57,9 +58,27 @@ def pesquisar(request, cod=None):
                 image = None
             result.append({'id': id, 'nome': nome, 'bairro': bairro, 'descricao': descricao, 'image': image})
 
-        #empresas = json.dumps(response_data)
-        #images = UploadFile.objects.filter(empresa__in=lista)
-        return render(request, 'vivaidoso/pesquisar.html', {'empresas': result})
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        paginator = Paginator(result, 10, request=request)
+
+        empresas = paginator.page(page)
+        
+        num_empresas = len(result)
+        
+        #try:
+        #    empresas = paginator.page(page)
+        #except PageNotAnInteger:
+        #    # If page is not an integer, deliver first page.
+        #    empresas = paginator.page(1)
+        #except EmptyPage:
+        #    # If page is out of range (e.g. 9999), deliver last page of results.
+        #    empresas = paginator.page(paginator.num_pages)
+        
+        return render(request, 'vivaidoso/pesquisar.html', {'empresas': empresas, 'num_empresas': num_empresas})
 
 def ajax_estados(request):
     estados = Estado.objects.all()
@@ -72,7 +91,7 @@ def ajax_cidades(request, estado):
     return HttpResponse(data, content_type='application/json')
 
 def ajax_bairros(request, cidade):
-    bairros = Bairro.objects.filter(cidade=cidade)
+    bairros = Bairro.objects.filter(cidade=cidade).order_by('desc_bairro')
     data = serializers.serialize("json", bairros)
     return HttpResponse(data, content_type='application/json')
 
@@ -82,6 +101,22 @@ def dashboard(request):
 	else:
 		return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
 
+def delete_image(request, id=None):
+    response_data = {}
+    if id:
+        try:
+            image = UploadFile.objects.get(pk=id).delete()
+            response_data['result'] = 'Image deleted!'
+            response_data['status'] = 'success'
+        except UploadFile.DoesNotExist:
+            response_data['result'] = 'Image not deleted!'
+            response_data['status'] = 'error'
+    else:
+        response_data['result'] = 'Id not provided!'
+        response_data['status'] = 'error'
+    
+    return HttpResponse(json.dumps(response_data),content_type="application/json")
+    
 def empresa(request, cod=None):
     if request.user.is_authenticated():
         if request.method == 'POST':
@@ -119,7 +154,6 @@ def empresa(request, cod=None):
                 except UploadFile.DoesNotExist:
                     images = None
                         
-                #return HttpResponse(form.as_p()) # return a html str
                 return render(request, 'dashboard/empresa_detail.html', {'form': form, 'images': images})
             else:
                 form = EmpresaForm()

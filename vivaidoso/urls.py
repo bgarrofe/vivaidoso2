@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^ajax/upload_file/(?P<cod>\w+)/', views.ajax_upload_file, name='ajax_upload_file'),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^profile/update/', views.profile_update, name='profile_update'),
+    url(r'^delete-image/(?P<id>\d+)/$', views.delete_image, name='delete_image'),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^avatar/', include('avatar.urls')),
     

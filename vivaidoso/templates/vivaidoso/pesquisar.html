@@ -1,4 +1,5 @@
 {% extends 'vivaidoso/base.html' %}
+{% load i18n %}
 {% load staticfiles %}
 
 {% block start_css %}
@@ -6,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/frontend/news.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'vendors/animate/animate.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/frontend/search.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'vendors/bootstrap-tagsinput/css/bootstrap-tagsinput.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
     <!--end of page level css-->
@@ -15,7 +17,7 @@
     <!-- Container Section Start -->
     <div class="container search-page search-content-1 search-content-3">
         <div class="row">
-            <h3><span class="text-blue">2371</span> resultados encontrados
+            <h3><span class="text-blue">{{num_empresas}}</span> resultados encontrados
             </h3>
             <hr>
             <div class="col-md-4 ">
@@ -53,7 +55,7 @@
                 <!-- News1 Section Start -->
                 <div class="search-container ">
                     <ul>
-                        {% for empresa in empresas %}
+                        {% for empresa in empresas.object_list %}
                             <li class="search-item clearfix">
                                 <a href="/pesquisar/{{ empresa.id }}/">
                                     <img src="{{ empresa.image }}">
@@ -76,21 +78,32 @@
                             </li>
                         {% endfor %}
                     </ul>
-                    <div class="search-pagination">
-                        <ul class="pagination">
-                            <li class="page-active">
-                                <a href="javascriptt:;"> 1 </a>
-                            </li>
-                            <li>
-                                <a href="javascriptt:;"> 2 </a>
-                            </li>
-                            <li>
-                                <a href="javascriptt:;"> 3 </a>
-                            </li>
-                            <li>
-                                <a href="javascriptt:;"> 4 </a>
-                            </li>
-                        </ul>
+                    <div class="pagination">
+                        <div class="text-center">
+                            <div class="btn-group">
+                                {% if empresas.has_previous %}
+                                    <a class="btn btn-default" href="?{{ empresas.previous_page_number.querystring }}">&lsaquo;&lsaquo; {% trans "previous" %}</a>
+                                {% else %}
+                                    <a class="btn btn-default disabled">&lsaquo;&lsaquo; {% trans "previous" %}</a>
+                                {% endif %}
+                                {% for page in empresas.pages %}
+                                    {% if page %}
+                                        {% ifequal page empresas.number %}
+                                            <a class="btn btn-default active">{{ page }}</a>
+                                        {% else %}
+                                            <a class="btn btn-default" href="?{{ page.querystring }}">{{ page }}</a>
+                                        {% endifequal %}
+                                    {% else %}
+                                        ...
+                                    {% endif %}
+                                {% endfor %}
+                                {% if empresas.has_next %}
+                                    <a class="btn btn-default" href="?{{ empresas.next_page_number.querystring }}" >{% trans "next" %} &rsaquo;&rsaquo;</a>
+                                {% else %}
+                                    <a class="btn btn-default disabled">{% trans "next" %} &rsaquo;&rsaquo;</a>
+                                {% endif %}
+                            </div>
+                        </div>   
                     </div>
                 </div>
                 <!-- //News1 Section End -->

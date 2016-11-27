@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'avatar',
     'tinymce',
     'multiselectfield',
+    'pure_pagination',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -151,3 +152,10 @@ EMAIL_HOST_PASSWORD = 'a31a2fae08e76dd3f773b21d3aec4576'
 
 MEDIA_ROOT = 'vivaidoso/static/upload'
 MEDIA_URL = '/static/upload/'
+
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 5,
+    'MARGIN_PAGES_DISPLAYED': 2,
+
+    'SHOW_FIRST_PAGE_WHEN_INVALID': True,
+}
