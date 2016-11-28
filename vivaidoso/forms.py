@@ -50,6 +50,20 @@ MY_CHOICES5 = (
     (6, 'Acompanhamento médico')
 )
 
+MY_CHOICES6 = (
+    (1, 'Casas de Repouso'),
+    (2, 'Apoio Domiciliar'),
+    (3, 'Home Care'),
+    (4, 'Centro Dia')
+)
+
+MY_CHOICES7 = (
+    (1, 'Permanente'),
+    (2, 'Temporário'),
+    (3, 'Creche Dia'),
+    (4, 'Diárias Avulsas')
+)
+
 class MyRegistrationForm(UserCreationForm):
     email = forms.EmailField(required = False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'E-mail'}))
     first_name = forms.CharField(required = False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First name'}))
@@ -105,6 +119,7 @@ class EmpresaForm(forms.ModelForm):
     sexo = forms.MultipleChoiceField(required = False, choices=MY_CHOICES4, widget=forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'Sexo'}))
     servicos_incl = forms.MultipleChoiceField(required = False, choices=MY_CHOICES5, widget=forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'Serviços incluídos'}))
     lot_maxima = forms.CharField(required = False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Lotação Máxima'}))
+    tipo = forms.ChoiceField(required = False, choices=MY_CHOICES6, widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Tipo'}))
     apresentacao = forms.CharField(required = False, widget=TinyMCE())
     servicos = forms.CharField(required = False, widget=TinyMCE())
     admissao = forms.CharField(required = False, widget=TinyMCE())
@@ -113,4 +128,14 @@ class EmpresaForm(forms.ModelForm):
     
     class Meta:
         model = Empresa
-        fields = ('nome', 'descricao', 'bairro', 'nat_juridica', 'horario_visita', 'lot_maxima', 'apresentacao', 'servicos', 'admissao', 'atividades', 'localizacao', 'faixa_valor', 'leitos', 'dependencia', 'sexo', 'servicos_incl')
+        fields = ('nome', 'descricao', 'bairro', 'nat_juridica', 'horario_visita', 'lot_maxima', 'apresentacao', 'servicos', 'admissao', 'atividades', 'localizacao', 'faixa_valor', 'leitos', 'dependencia', 'sexo', 'servicos_incl', 'tipo')
+
+class PesquisaForm(forms.Form):
+    faixa_valor = forms.MultipleChoiceField(required = False, choices=MY_CHOICES, widget=forms.SelectMultiple(attrs={'class': 'form-control selectpicker', 'placeholder': 'Faixa de Valor Mensal', 'data-none-selected-text': 'Selecione'}))
+    leitos = forms.MultipleChoiceField(required = False, choices=MY_CHOICES2, widget=forms.SelectMultiple(attrs={'class': 'form-control selectpicker', 'placeholder': 'Leitos', 'data-none-selected-text': 'Selecione'}))
+    dependencia = forms.ChoiceField(required = False, choices=MY_CHOICES3, widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Grau de Dependência'}))
+    sexo = forms.MultipleChoiceField(required = False, choices=MY_CHOICES4, widget=forms.SelectMultiple(attrs={'class': 'form-control selectpicker', 'placeholder': 'Sexo', 'data-none-selected-text': 'Selecione'}))
+    servicos_incl = forms.MultipleChoiceField(required = False, choices=MY_CHOICES5, widget=forms.SelectMultiple(attrs={'class': 'form-control selectpicker', 'placeholder': 'Serviços incluídos', 'data-none-selected-text': 'Selecione'}))
+    periodo = forms.MultipleChoiceField(required = False, choices=MY_CHOICES7, widget=forms.SelectMultiple(attrs={'class': 'form-control selectpicker', 'placeholder': 'Serviços incluídos', 'data-none-selected-text': 'Selecione'}))
+    tipo = forms.ChoiceField(required = False, choices=MY_CHOICES6, widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Tipo'}))
+    

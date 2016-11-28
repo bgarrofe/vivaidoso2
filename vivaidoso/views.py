@@ -10,14 +10,16 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
-from forms import MyRegistrationForm, UploadFileForm, UserProfileForm, EmpresaForm
+from django.db.models import Q
+from forms import MyRegistrationForm, UploadFileForm, UserProfileForm, EmpresaForm, PesquisaForm
 from vivaidoso.models import Estado, Cidade, Bairro, Empresa, UploadFile
 import json
-from utils import multiple_select_fields
+from utils import multiple_select_fields, search_filter
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
 def index(request):
-    return render(request, 'vivaidoso/index.html', {})
+    form = PesquisaForm()
+    return render(request, 'vivaidoso/index.html', {'form': form})
     
 def sobre_nos(request):
     return render(request, 'vivaidoso/sobre-nos.html', {})
@@ -43,42 +45,40 @@ def pesquisar(request, cod=None):
         result = multiple_select_fields(empresa)
         return render(request, 'vivaidoso/empresa.html', {'empresa': empresa, 'images': images, 'detalhes': result})
     else:
-        empresas = Empresa.objects.all()
-        result = []
-        response_data = {}
-        for empresa in empresas:
-            id = empresa.id
-            nome = empresa.nome
-            bairro = empresa.bairro.desc_bairro
-            descricao = empresa.descricao
+        if request.method == 'POST':
+
+            q_final = search_filter(request)
+            empresas = Empresa.objects.filter(q_final)
+            
+            #empresas = Empresa.objects.all()
+            result = []
+            response_data = {}
+            for empresa in empresas:
+                id = empresa.id
+                nome = empresa.nome
+                bairro = empresa.bairro.desc_bairro
+                descricao = empresa.descricao
+                try:
+                    image = UploadFile.objects.filter(empresa=empresa)[:1].get()
+                    image = image.file.url
+                except UploadFile.DoesNotExist:
+                    image = None
+                result.append({'id': id, 'nome': nome, 'bairro': bairro, 'descricao': descricao, 'image': image})
+
             try:
-                image = UploadFile.objects.filter(empresa=empresa)[:1].get()
-                image = image.file.url
-            except UploadFile.DoesNotExist:
-                image = None
-            result.append({'id': id, 'nome': nome, 'bairro': bairro, 'descricao': descricao, 'image': image})
+                page = request.GET.get('page', 1)
+            except PageNotAnInteger:
+                page = 1
 
-        try:
-            page = request.GET.get('page', 1)
-        except PageNotAnInteger:
-            page = 1
+            paginator = Paginator(result, 10, request=request)
+            empresas = paginator.page(page)
 
-        paginator = Paginator(result, 10, request=request)
-
-        empresas = paginator.page(page)
+            num_empresas = len(result)
         
-        num_empresas = len(result)
+            return render(request, 'vivaidoso/pesquisar.html', {'empresas': empresas, 'num_empresas': num_empresas})
         
-        #try:
-        #    empresas = paginator.page(page)
-        #except PageNotAnInteger:
-        #    # If page is not an integer, deliver first page.
-        #    empresas = paginator.page(1)
-        #except EmptyPage:
-        #    # If page is out of range (e.g. 9999), deliver last page of results.
-        #    empresas = paginator.page(paginator.num_pages)
-        
-        return render(request, 'vivaidoso/pesquisar.html', {'empresas': empresas, 'num_empresas': num_empresas})
+        else:
+            return redirect('index')
 
 def ajax_estados(request):
     estados = Estado.objects.all()

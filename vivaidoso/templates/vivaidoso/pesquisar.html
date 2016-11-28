@@ -57,9 +57,11 @@
                     <ul>
                         {% for empresa in empresas.object_list %}
                             <li class="search-item clearfix">
-                                <a href="/pesquisar/{{ empresa.id }}/">
-                                    <img src="{{ empresa.image }}">
-                                </a>
+                                {% if empresa.image %}
+                                    <a href="/pesquisar/{{ empresa.id }}/">
+                                        <img src="{{ empresa.image }}">
+                                    </a>
+                                {% endif %}
                                 <div class="search-content">
                                     <h2 class="search-title">
                                         <a href="/pesquisar/{{ empresa.id }}/">{{ empresa.nome }}</a>

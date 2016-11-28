@@ -49,6 +49,13 @@ MY_CHOICES5 = (
     (6, 'Acompanhamento médico')
 )
 
+MY_CHOICES6 = (
+    (1, 'Casas de Repouso'),
+    (2, 'Apoio Domiciliar'),
+    (3, 'Home Care'),
+    (4, 'Centro Dia')
+)
+
 class UserProfile(models.Model):  
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
@@ -94,6 +101,7 @@ class Empresa(models.Model):
     dependencia = models.IntegerField(choices=MY_CHOICES3,default=1)
     sexo = MultiSelectField(choices=MY_CHOICES4,default=1)
     servicos_incl = MultiSelectField(choices=MY_CHOICES5,default=1)
+    tipo = models.IntegerField(choices=MY_CHOICES6,default=1)
     apresentacao = HTMLField()
     servicos = HTMLField()
     admissao = HTMLField()

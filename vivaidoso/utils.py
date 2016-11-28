@@ -1,4 +1,6 @@
 # -*- coding: latin-1 -*-
+from django.db.models import Q
+
 faixa_valor_dict = {
     1: 'Gratuito', 
     2: 'Até R$ 1.000', 
@@ -35,6 +37,43 @@ servicos_dict = {
     5: 'Psicólogo',
     6: 'Acompanhamento médico',
 }
+
+def search_filter(request):
+    
+    tipo = request.POST.get('tipo')
+    q_final = Q(tipo=tipo)
+
+    dependencia = request.POST.get('dependencia')
+    q_final.add(Q(dependencia=dependencia), Q.AND)
+    
+    bairro = request.POST.get('bairro')
+    q_final.add(Q(bairro=bairro), Q.AND)
+    
+    q_objects = Q()
+    faixa_valor = request.POST.getlist('faixa_valor')
+    for item in faixa_valor:
+        q_objects.add(Q(faixa_valor__contains=item), Q.OR)
+    q_final.add(q_objects, Q.AND)
+
+    q_objects = Q()
+    leitos = request.POST.getlist('leitos')
+    for item in leitos:
+        q_objects.add(Q(leitos__contains=item), Q.OR)
+    q_final.add(q_objects, Q.AND)
+
+    q_objects = Q()
+    sexo = request.POST.getlist('sexo')
+    for item in sexo:
+        q_objects.add(Q(sexo__contains=item), Q.OR)
+    q_final.add(q_objects, Q.AND)
+    
+    q_objects = Q()
+    servicos_incl = request.POST.getlist('servicos_incl')
+    for item in servicos_incl:
+        q_objects.add(Q(servicos_incl__contains=item), Q.OR)
+    q_final.add(q_objects, Q.AND)
+    
+    return q_final
 
 def multiple_select_fields(empresa):
     result = {}

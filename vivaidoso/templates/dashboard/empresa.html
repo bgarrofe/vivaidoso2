@@ -130,14 +130,14 @@
                                                     {{form.nat_juridica}}
                                                 </div>
                                                 <div class="form-group">
-                                                    {{ form.faixa_valor.errors }}
-                                                    <label for="{{ form.faixa_valor.id_for_label }}">Faixa de Valor Mensal:</label>
-                                                    {{form.faixa_valor}}
-                                                </div>
-                                                <div class="form-group">
                                                     {{ form.dependencia.errors }}
                                                     <label for="{{ form.dependencia.id_for_label }}">Dependência:</label>
                                                     {{form.dependencia}}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ form.faixa_valor.errors }}
+                                                    <label for="{{ form.faixa_valor.id_for_label }}">Faixa de Valor Mensal:</label>
+                                                    {{form.faixa_valor}}
                                                 </div>
                                                 <div class="form-group">
                                                     {{ form.servicos_incl.errors }}
@@ -155,6 +155,11 @@
                                                     {{ form.lot_maxima.errors }}
                                                     <label for="{{ form.lot_maxima.id_for_label }}">Lotação Máxima:</label>
                                                     {{ form.lot_maxima }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ form.tipo.errors }}
+                                                    <label for="{{ form.tipo.id_for_label }}">Tipo:</label>
+                                                    {{form.tipo}}
                                                 </div>
                                                 <div class="form-group">
                                                     {{ form.leitos.errors }}
