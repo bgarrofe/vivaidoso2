@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse, QueryDict
+from django.http.request import MultiValueDict
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
@@ -46,12 +47,11 @@ def pesquisar(request, cod=None):
         return render(request, 'vivaidoso/empresa.html', {'empresa': empresa, 'images': images, 'detalhes': result})
     else:
         if request.method == 'POST':
-            request.session['search-post'] = request.POST
+            request.session['search-post'] = dict(request.POST.iterlists())
         else:
             if 'search-post' in request.session:
-                request.POST = QueryDict('').copy()
-                request.POST.update(request.session['search-post'])
-                #request.POST = request.session['search-post']
+                request.POST = QueryDict('', mutable=True)
+                request.POST.update(MultiValueDict(request.session['search-post']))
                 request.method = 'POST'
             else:
                 return redirect('index')
@@ -59,9 +59,7 @@ def pesquisar(request, cod=None):
         q_final = search_filter(request)
         empresas = Empresa.objects.filter(q_final)
 
-        #empresas = Empresa.objects.all()
         result = []
-        response_data = {}
         for empresa in empresas:
             id = empresa.id
             nome = empresa.nome
@@ -79,16 +77,13 @@ def pesquisar(request, cod=None):
         except PageNotAnInteger:
             page = 1
 
-        paginator = Paginator(result, 10, request=request)
+        paginator = Paginator(result, 2, request=request)
         empresas = paginator.page(page)
 
         num_empresas = len(result)
 
         return render(request, 'vivaidoso/pesquisar.html', {'empresas': empresas, 'num_empresas': num_empresas})
         
-        #else:
-        #    return redirect('index')
-
 def ajax_estados(request):
     estados = Estado.objects.all().order_by('flg_estado')
     data = serializers.serialize("json", estados)
