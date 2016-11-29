@@ -46,8 +46,14 @@ def search_filter(request):
     dependencia = request.POST.get('dependencia')
     q_final.add(Q(dependencia=dependencia), Q.AND)
     
-    bairro = request.POST.get('bairro')
-    q_final.add(Q(bairro=bairro), Q.AND)
+    #bairro = request.POST.get('bairro')
+    #q_final.add(Q(bairro=bairro), Q.AND)
+    
+    q_objects = Q()
+    bairro = request.POST.getlist('bairro')
+    for item in bairro:
+        q_objects.add(Q(bairro=item), Q.OR)
+    q_final.add(q_objects, Q.AND)
     
     q_objects = Q()
     faixa_valor = request.POST.getlist('faixa_valor')
