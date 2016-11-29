@@ -81,12 +81,12 @@ def pesquisar(request, cod=None):
             return redirect('index')
 
 def ajax_estados(request):
-    estados = Estado.objects.all()
+    estados = Estado.objects.all().order_by('flg_estado')
     data = serializers.serialize("json", estados)
     return HttpResponse(data, content_type='application/json')
 
 def ajax_cidades(request, estado):
-    cidades = Cidade.objects.filter(estado=estado)
+    cidades = Cidade.objects.filter(estado=estado).order_by('desc_cidade')
     data = serializers.serialize("json", cidades)
     return HttpResponse(data, content_type='application/json')
 
