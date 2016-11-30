@@ -77,7 +77,7 @@ def pesquisar(request, cod=None):
         except PageNotAnInteger:
             page = 1
 
-        paginator = Paginator(result, 2, request=request)
+        paginator = Paginator(result, 10, request=request)
         empresas = paginator.page(page)
 
         num_empresas = len(result)
